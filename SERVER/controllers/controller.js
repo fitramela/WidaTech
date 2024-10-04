@@ -56,13 +56,13 @@ class Controller {
     }
 
     static async searchProduct (req, res) {
-        const {Products} = req.query
-        console.log(Products, '<---Products')
+        const {item} = req.query
+        console.log(item, '<--- item')
         try {
             const product = await Product.findAll({
                 where: {
                     item: {
-                        [Op.iLike]: `%${Products}%`
+                        [Op.iLike]: `%${item}%`
                     }
                 }
             })

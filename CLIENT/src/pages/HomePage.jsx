@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from 'react';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import store from '../redux/store';
@@ -18,8 +17,8 @@ const App = () => {
   return (
     <Provider store={store}>
       <div className="min-h-screen bg-gray-100 flex flex-col">
-        <header className="bg-green-600 text-white p-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Invoice Module</h1>
+        <header className=" text-green-600 p-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Create Invoice</h1>
         </header>
         <main className="container mx-auto p-4 flex-1">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

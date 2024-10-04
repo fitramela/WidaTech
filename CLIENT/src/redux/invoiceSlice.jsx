@@ -1,4 +1,3 @@
-// src/redux/invoiceSlice.js
 import { createSlice } from '@reduxjs/toolkit';
 
 const invoiceSlice = createSlice({

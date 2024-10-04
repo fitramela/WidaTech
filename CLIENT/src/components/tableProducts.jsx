@@ -15,8 +15,8 @@ const TableProducts = () => {
               quantity: product.quantity,
               totalCOGS: product.totalCOGS,
               totalPrice: product.totalPrice,
-              createdAt: product.createdAt,
-              updatedAt: product.updatedAt,
+              createdAt: new Date(product.createdAt).toISOString().split('T')[0], // Format tanggal
+              updatedAt: new Date(product.updatedAt).toISOString().split('T')[0], // Format tanggal
             }));
             setProducts(productData);
           } catch (error) {
@@ -45,11 +45,11 @@ const TableProducts = () => {
                 {products.map(product => (
                     <tr key={product.id} className="border-b border-gray-400">
                         <td className="px-4 py-2 border-r border-gray-400">{product.id}</td>
-                        <td className="px-4 py-2 border-r border-gray-400">{product.invoiceNumber}</td>
+                        <td className="px-4 py-2 border-r border-gray-400 text-center">{product.invoiceNumber}</td>
                         <td className="px-4 py-2 border-r border-gray-400">{product.item}</td>
-                        <td className="px-4 py-2 border-r border-gray-400">{product.quantity}</td>
-                        <td className="px-4 py-2 border-r border-gray-400">{product.totalCOGS}</td>
-                        <td className="px-4 py-2 border-r border-gray-400">{product.totalPrice}</td>
+                        <td className="px-4 py-2 border-r border-gray-400 text-center">{product.quantity}</td>
+                        <td className="px-4 py-2 border-r border-gray-400">Rp.{product.totalCOGS}</td>
+                        <td className="px-4 py-2 border-r border-gray-400">Rp.{product.totalPrice}</td>
                         <td className="px-4 py-2">{product.createdAt}</td>
                         
                     </tr>
@@ -62,4 +62,3 @@ const TableProducts = () => {
 }
 
 export default TableProducts;
-

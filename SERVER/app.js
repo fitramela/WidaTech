@@ -17,7 +17,7 @@ app.get("/" , Controller.getAllProducts)
 app.get("/invoices" , Controller.getAllInvoices)
 app.post("/invoices" , Controller.createInvoice)
 app.post("/searchInvoice" , Controller.searchInvoice)
-app.get("/:Products" , Controller.searchProduct)
+app.get("/searchProduct/:item" , Controller.searchProduct)
 
 
 

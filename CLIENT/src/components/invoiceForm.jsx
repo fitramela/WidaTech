@@ -1,6 +1,7 @@
-// src/components/InvoiceForm.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { format } from 'date-fns';
 
 const InvoiceForm = ({ onAddInvoice }) => {
   const [date, setDate] = useState('');
@@ -11,36 +12,35 @@ const InvoiceForm = ({ onAddInvoice }) => {
   const [autocomplete, setAutocomplete] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
 
+ 
+  const [productData, setProductData] = useState([]);
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await axios.get('http://localhost:3000/invoices');
-      const productData = response.data.map(product => ({
-        name: product.customer,
-        price: product.totalPrice,
-        stock: 1,
-      }));
-      setProducts(productData);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/');
+        const data = response.data.map(product => ({
+          name: product.item,
+          price: product.totalPrice,
+          stock: product.quantity,
+        }));
+        setProductData(data);
+      } catch (error) {
+        console.error('Error fetching product data:', error);
+      }
     };
-    fetchProducts();
+
+    fetchData();
   }, []);
 
-  const handleSearch = async (e) => {
+  const handleSearch = (e) => {
     const value = e.target.value;
-    setCustomerName(value);
+
     if (value) {
-      try {
-        const response = await axios.get(
-          `http://localhost:3000/invoices?customer_like=${value}`
-        );
-        const suggestions = response.data.map(product => ({
-          name: product.customer,
-          price: product.totalPrice,
-          stock: 1,
-        }));
-        setAutocomplete(suggestions);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
+      const suggestions = productData.filter(product =>
+        product.name.toLowerCase().includes(value.toLowerCase())
+      );
+      setAutocomplete(suggestions);
     } else {
       setAutocomplete([]);
     }
@@ -51,29 +51,21 @@ const InvoiceForm = ({ onAddInvoice }) => {
     setAutocomplete([]);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const invoice = {
-      invoiceNumber: '',
       date: format(new Date(date), 'yyyy-MM-dd'),
-      customer: customerName,
-      salesperson: salespersonName,
-      paymentType: 'Cash',
+      customerName,
+      salespersonName,
       notes,
       products: selectedProducts,
     };
-    try {
-      const response = await axios.post('http://localhost:3000/invoices', invoice);
-      onAddInvoice(response.data);
-      // Reset form
-      setDate('');
-      setCustomerName('');
-      setSalespersonName('');
-      setNotes('');
-      setSelectedProducts([]);
-    } catch (error) {
-      console.error('Error adding invoice:', error);
-    }
+    onAddInvoice(invoice);
+    setDate('');
+    setCustomerName('');
+    setSalespersonName('');
+    setNotes('');
+    setSelectedProducts([]);
   };
 
   return (
@@ -99,7 +91,7 @@ const InvoiceForm = ({ onAddInvoice }) => {
                 type="text"
                 placeholder="Customer Name"
                 value={customerName}
-                onChange={handleSearch}
+                onChange={(e) => setCustomerName(e.target.value)}
                 required
                 className="border p-2"
               />
