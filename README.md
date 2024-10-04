@@ -1,5 +1,5 @@
 # WidaTech 
-xxx NOT FINISH YET xxx
+xxx NOT FINISH YET but still works xxx
 
 ## Instructions for Running the Application
 
@@ -26,5 +26,6 @@ This application enables users to perform various tasks, including:
 * Inputting new invoices
 * Viewing all inputted invoices
 * Managing product and transaction data
+* Revenue (in development)
 
 Thus, this application can assist in managing data and transactions more effectively and efficiently.
