@@ -1,7 +1,6 @@
 // src/components/InvoiceForm.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { format } from 'date-fns';
 
 const InvoiceForm = ({ onAddInvoice }) => {
   const [date, setDate] = useState('');
@@ -12,22 +11,36 @@ const InvoiceForm = ({ onAddInvoice }) => {
   const [autocomplete, setAutocomplete] = useState([]);
   const [selectedProducts, setSelectedProducts] = useState([]);
 
-  // Hardcoded product data
-  const productData = [
-    { name: 'Bluetooth speaker', price: 252000, stock: 20 },
-    { name: 'Headphone', price: 60000, stock: 50 },
-    { name: 'Laptop charger', price: 960000, stock: 30 },
-    { name: 'LCD Monitor', price: 600000, stock: 10 },
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await axios.get('http://localhost:3000/invoices');
+      const productData = response.data.map(product => ({
+        name: product.customer,
+        price: product.totalPrice,
+        stock: 1,
+      }));
+      setProducts(productData);
+    };
+    fetchProducts();
+  }, []);
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     const value = e.target.value;
     setCustomerName(value);
     if (value) {
-      const suggestions = productData.filter(product =>
-        product.name.toLowerCase().includes(value.toLowerCase())
-      );
-      setAutocomplete(suggestions);
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/invoices?customer_like=${value}`
+        );
+        const suggestions = response.data.map(product => ({
+          name: product.customer,
+          price: product.totalPrice,
+          stock: 1,
+        }));
+        setAutocomplete(suggestions);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
     } else {
       setAutocomplete([]);
     }
@@ -38,22 +51,29 @@ const InvoiceForm = ({ onAddInvoice }) => {
     setAutocomplete([]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const invoice = {
+      invoiceNumber: '',
       date: format(new Date(date), 'yyyy-MM-dd'),
-      customerName,
-      salespersonName,
+      customer: customerName,
+      salesperson: salespersonName,
+      paymentType: 'Cash',
       notes,
       products: selectedProducts,
     };
-    onAddInvoice(invoice);
-    // Reset form
-    setDate('');
-    setCustomerName('');
-    setSalespersonName('');
-    setNotes('');
-    setSelectedProducts([]);
+    try {
+      const response = await axios.post('http://localhost:3000/invoices', invoice);
+      onAddInvoice(response.data);
+      // Reset form
+      setDate('');
+      setCustomerName('');
+      setSalespersonName('');
+      setNotes('');
+      setSelectedProducts([]);
+    } catch (error) {
+      console.error('Error adding invoice:', error);
+    }
   };
 
   return (

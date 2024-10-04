@@ -14,6 +14,10 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.json())
 
 app.get("/" , Controller.getAllProducts)
+app.get("/invoices" , Controller.getAllInvoices)
+app.post("/invoices" , Controller.createInvoice)
+app.post("/searchInvoice" , Controller.searchInvoice)
+app.get("/:Products" , Controller.searchProduct)
 
 
 
