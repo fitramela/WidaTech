@@ -7,7 +7,9 @@ xxx NOT FINISH YET but still works xxx
 
 1. Open a terminal and execute the command `cd SERVER`
 2. Execute the command `npm install` to install dependencies
-3. Execute the command `node --watch bin/www.js` to initiate the server
+3. Execute the command `npx sequelize db:migrate` to migrate data
+4. Execute the command `npx sequelize db:seed:all` to seed data
+5. Execute the command `node --watch bin/www.js` to initiate the server
 
 ### Client
 
@@ -29,3 +31,4 @@ This application enables users to perform various tasks, including:
 * Revenue (in development)
 
 Thus, this application can assist in managing data and transactions more effectively and efficiently.
+
