@@ -8,6 +8,7 @@ const TableProducts = () => {
         const fetchData = async () => {
           try {
             const response = await axios.get('http://localhost:3000/');
+            // console.log(response.data, '<--- response.data');
             const productData = response.data.map(product => ({
               id: product.id,
               invoiceNumber: product.invoiceNumber,
@@ -19,6 +20,7 @@ const TableProducts = () => {
               updatedAt: new Date(product.updatedAt).toISOString().split('T')[0], // Format tanggal
             }));
             setProducts(productData);
+            // console.log(productData, '<--- productData');
           } catch (error) {
             console.error('Error fetching products:', error);
           }

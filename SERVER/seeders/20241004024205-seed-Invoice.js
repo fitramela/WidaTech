@@ -11,6 +11,7 @@ module.exports = {
       { invoiceNumber: 4, date: '2021-01-04', customer: 'Rock Pete', salesperson: 'NOTCASHORCREDIT', paymentType: 'NOTCASHORCREDIT', notes: 'Lorem ipsum', createdAt: new Date(), updatedAt: new Date() },
       { invoiceNumber: 5, date: '2021-01-04', customer: 'Frank', salesperson: null, paymentType: 'CASH', notes: 'Lorem ipsum', createdAt: new Date(), updatedAt: new Date() },
       { invoiceNumber: 6, date: '2021-01-05', customer: 'Jeff Pete', salesperson: 'CREDIT', paymentType: 'CREDIT', notes: 'Lorem ipsum', createdAt: new Date(), updatedAt: new Date() },
+      { invoiceNumber: 7, date: '2021-01-06', customer: 'John Doe', salesperson: 'CASH', paymentType: 'CASH', notes: 'Lorem ipsum', createdAt: new Date(), updatedAt: new Date() },
     ], {});
   },
 

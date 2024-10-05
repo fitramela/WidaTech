@@ -4,6 +4,7 @@ class Controller {
     static async getAllProducts(req, res) {
         try {
             const product = await Product.findAll();
+            console.log(product, '<--- product')
             if (!product) {
                 res.status(404).json({message: 'Data not found'});
             }
